@@ -33,9 +33,22 @@
             border-radius: 10px;
             cursor: pointer;
             user-select: none;
+            transition: background-color 0.3s ease;
         }
         #click-area:hover {
             background-color: #45a049;
+        }
+        #number-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            opacity: 0;
+            color: #4CAF50;
+            pointer-events: none;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
     </style>
 </head>
@@ -44,12 +57,34 @@
         <div id="counter">0</div>
         <div id="click-area" onclick="incrementCounter()">Tap Here</div>
     </div>
+
     <script>
         let counter = 0;
 
         function incrementCounter() {
             counter++;
             document.getElementById('counter').innerText = counter;
+
+            // Анимация появления и исчезания числа "1"
+            let numberAnimation = document.createElement('div');
+            numberAnimation.innerText = '1';
+            numberAnimation.id = 'number-animation';
+            document.body.appendChild(numberAnimation);
+
+            // Запуск анимации
+            setTimeout(function() {
+                numberAnimation.style.opacity = '1';
+                numberAnimation.style.transform = 'translate(-50%, -50%) scale(2)';
+            }, 50);
+
+            // Удаление числа после завершения анимации
+            setTimeout(function() {
+                numberAnimation.style.opacity = '0';
+                numberAnimation.style.transform = 'translate(-50%, -50%) scale(0)';
+                setTimeout(function() {
+                    numberAnimation.remove();
+                }, 500); // После завершения анимации удалить элемент
+            }, 1000); // Показать число на 50 мс, оставить на 950 мс и удалить его
         }
     </script>
 </body>
